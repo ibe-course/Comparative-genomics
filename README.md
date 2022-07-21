@@ -15,6 +15,9 @@ conda install -c bioconda mafft
 conda install -c bioconda trimal
 conda install -c bioconda hmmer
 ```
+ 
+Download files for Exercise 1 [here](https://www.dropbox.com/sh/3944t4l8xhq7rp8/AABF2IrgAmThs4nIvaIDETUta?dl=0)
+
 Download Orthofinder output [here](https://www.dropbox.com/s/jpvp84gvh4g8fq4/Exercise2_Heterocephalus_Dataset1.zip?dl=0) and [here](https://www.dropbox.com/s/0bsu89iadyu3zig/Exercise2_Heterocephalus_Dataset2.zip?dl=0) They are about 1GB each, so don't worry if downloading them isn't feasible
 
 # Exercise 1 - Proteins crucial for animal multicellularity
