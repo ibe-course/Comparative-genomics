@@ -61,6 +61,8 @@ Reconstruct the phylogeny [IQ-TREE's webserver](http://iqtree.cibiv.univie.ac.at
 
 Use the default options, and note that [ultrafast bootstrap support values are interpreted slightly differently to regular nonparametric bootstrap support values](https://academic.oup.com/mbe/article/30/5/1188/997508?login=false)
 
+Check the log file output in a text viewer, and the maximum likelihood tree with support values in [iTOL](https://itol.embl.de/)
+
 •	If you have extra time to spare/waste at some point, try the same exercise using the Drosophila extracellular matrix heparin sulfate proteoglycan Terribly Reduced Optic Lobes (Trol) as a query, as an illustration of an unpleasant situation that would normally require much more curation than the p53 example above (and is unlikely to give usable results). At minimum you would need to start by making the search more stringent and/or changing the maximum number of hits.
 
 # Exercise 2 - insight into poikilothermy and blindness in the naked mole rat 
