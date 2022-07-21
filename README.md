@@ -34,19 +34,21 @@ In humans, alpha- and beta-catenin are crucial to the function of adhaerens junc
 
 Following the blast search, you will retrieve the subject sequences, align them using mafft (with the accurate l-ins-i option), trim them using trimal with the gappyout option, and construct a phylogeny using IQ-TREE.
 
-Make a blastable database from an infile containg amino acid sequences (for nucleotide sequences, use -dbtype nucl instead)
+Different sequence similarity search programs require differently formatted databases. Reformat your file containing EukProt_v3mini amino acid data to make it readable by blast (for nucleotide sequences, use -dbtype nucl instead).
 ```
 makeblastdb -in EukProt_v3mini.fasta -dbtype prot -out EukProt_v3miniDB
 ```
-search the EukProt_v3mini database using Homo sapiens Vinculin as a query, with tabular output and a cutoff value of 0.001. See blast parameters [here](https://www.ncbi.nlm.nih.gov/books/NBK279684/)
+search the EukProt_v3mini database using Homo sapiens Vinculin as a query, with tabular output and a cutoff value of 0.001. Note that this cutoff is arbitrary: not only will the 'correct' cutoff be highly dependent on the degree of conservation of your proteins, but the e-value is calculated as a function of the database size and composition - so it isn't directly comparable between databases!). For other proteins, you might want to try out more or less stringent e-value cutoffs.
+See blast parameters [here](https://www.ncbi.nlm.nih.gov/books/NBK279684/)
+
 ```
 blastp -query Vinculinquery.fasta -db EukProt_v3miniDB -outfmt 6 -evalue 1e-3 -out VinculininEukaryotes.fasta
 ```
-retrieve the sequences corresponding to the hits
+retrieve the sequences corresponding to the hits, by extracting the column containing subject sequence IDs, and then extracting the sequences that correspond to them.
 ```
 cut -f 2 VinculininEukaryotes.fasta > IDs.txt ; seqkit grep -n -f IDs.txt EukProt_v3mini.fasta > Eukaryotes_Vinculin.fasta
 ```
-remove duplicate entries based on sequence (i.e., identical Homo sapiens sequences will be trimmed, even though they have different header). Leaving off the 's' flag will remove duplicate sequences only if they also have identical fasta headers, and remove sequences shorter than 150 amino acids
+remove sequences shorter than 150 amino acids, and then remove duplicate entries based on sequence (i.e., identical Homo sapiens sequences will be trimmed, even though they have different headers). Leaving off the 's' flag will remove duplicate sequences only if they also have identical fasta headers
 ```
 seqkit seq -m 150 Eukaryotes_Vinculin.fasta | seqkit rmdup -s > Eukaryotes_Vinculin_reduced.fasta
 ```
@@ -66,7 +68,7 @@ Reconstruct the phylogeny [IQ-TREE's webserver](http://iqtree.cibiv.univie.ac.at
 
 Use the default options, and note that [ultrafast bootstrap support values are interpreted slightly differently to regular nonparametric bootstrap support values](https://academic.oup.com/mbe/article/30/5/1188/997508?login=false)
 
-Check the log file output in a text viewer, and the maximum likelihood tree with support values in [iTOL](https://itol.embl.de/)
+Check the log file output in a text viewer, and the maximum likelihood tree with support values in [iTOL](https://itol.embl.de/) or another viewer such as FigTree
 
 •	If you have extra time to spare/waste at some point, try the same exercise using the Drosophila extracellular matrix heparin sulfate proteoglycan Terribly Reduced Optic Lobes (Trol) as a query, as an illustration of an unpleasant situation that would normally require much more curation than the p53 example above (and is unlikely to give usable results). At minimum you would need to start by making the search more stringent and/or changing the maximum number of hits.
 
@@ -139,7 +141,7 @@ Search a fasta file of sequences for sequences that match an hmm profile
 hmmsearch HAP2.hmm ArchaealMAGs_protein.fasta > HAP2inArchaealMAGs.out
 ```
 
-•	We’ll use a global e-value of 10-3 and an alignment length of 100 amino acids as our cutoffs. If you get any significant hits, use InterProScan (https://www.ebi.ac.uk/interpro/result/InterProScan ) to predict their sequence features and protein family memberships.
+•	We’ll use a global e-value of 10-3 and an alignment length of 100 amino acids as our (arbitrary!) cutoffs. If you get any significant hits, use InterProScan (https://www.ebi.ac.uk/interpro/result/InterProScan ) to predict their sequence features and protein family memberships.
 •	Bonus: download ChimeraX, and predict the structures of your hits using Alphafold2 via CollabFold (ColabFold: Making protein folding accessible to all. Nature Methods (2022)):
 Tools/Structure Prediction/Alphafold ; paste your sequences, separated by commas, and click ‘Predict’. This requires signing in with a Google account
 
